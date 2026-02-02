@@ -5,13 +5,13 @@ import assemblyai as aai
 app = Flask(__name__)
 
 # --- Imperial Core Config ---
-# تم حقن المفاتيح الخاصة بك هنا أيها الجنرال
+# تم حقن المفاتيح السيادية الخاصة بك هنا
 aai.settings.api_key = "A7fd94e1bf2e409cbce77384ce76afae"
 GROQ_KEY = "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"
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 def get_audio_transcript(video_url):
-    """تحويل صوت الفيديو إلى نص باستخدام الذكاء السحابي"""
+    """محرك الاستخبارات الصوتية لتحويل الرابط إلى نص"""
     try:
         config = aai.TranscriptionConfig(language_detection=True)
         transcriber = aai.Transcriber()
@@ -39,28 +39,29 @@ HTML = """
         .toggle-btn { position: absolute; top: 20px; right: 20px; background: var(--gold); border: none; padding: 10px; cursor: pointer; font-weight: bold; border-radius: 4px; }
         .control-panel { width: 100%; max-width: 800px; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-top: 50px; }
         .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        input { flex: 1; background: #000; border: 1px solid var(--gold); color: #fff; padding: 12px; border-radius: 6px; }
-        select { background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+        input { flex: 1; background: #000; border: 1px solid var(--gold); color: #fff; padding: 12px; border-radius: 6px; font-size: 1rem; }
+        select { background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 5px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .actions { display: flex; gap: 10px; }
-        .action-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .action-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-run { background: var(--gold); color: #000; }
         .btn-pdf { background: #fff; color: #000; }
         .btn-clear { background: #333; color: #fff; }
-        .output-card { background: #161616; border-right: 5px solid var(--gold); padding: 20px; margin-top: 20px; border-radius: 8px; width: 100%; max-width: 800px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .report-text { line-height: 1.8; white-space: pre-wrap; }
-        @media print { .sidebar, .control-panel, .toggle-btn { display: none !important; } .main { padding: 0; } .output-card { border: 1px solid #000; color: black; background: white; } }
+        .output-card { background: #161616; border-right: 5px solid var(--gold); padding: 25px; margin-top: 20px; border-radius: 8px; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .report-text { line-height: 1.8; white-space: pre-wrap; font-size: 1.1rem; }
+        @media print { .sidebar, .control-panel, .toggle-btn { display: none !important; } .main { padding: 0; } .output-card { border: 2px solid #000; color: black; background: white; width: 100%; } }
     </style>
 </head>
 <body>
     <button class="toggle-btn" onclick="toggleSidebar()">☰ الذاكرة</button>
     <div class="sidebar" id="mySidebar">
-        <div style="padding:20px; color:var(--gold); font-weight:bold; border-bottom:1px solid #333;">STRATEGIC-AI-CORE v9.1</div>
+        <div style="padding:20px; color:var(--gold); font-weight:bold; border-bottom:1px solid #333; text-align:center;">STRATEGIC-AI-CORE v9.1</div>
+        <div style="padding:15px; font-size:0.8rem; color:#666;">نظام التحليل السيادي للمستحوذين</div>
     </div>
     <div class="main">
-        <h1 style="color:var(--gold);">STRATEGIC-AI-CORE</h1>
+        <h1 style="color:var(--gold); letter-spacing: 2px;">STRATEGIC-AI-CORE</h1>
         <div class="control-panel">
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="أدخل رابط الفيديو أو النص الاستراتيجي للتحليل...">
+                <input type="text" id="userInput" placeholder="أدخل رابط فيديو (يوتيوب/فيسبوك) أو النص الاستراتيجي المباشر...">
                 <select id="langSelect">
                     <option value="Arabic">العربية</option>
                     <option value="English">English</option>
@@ -82,7 +83,7 @@ HTML = """
         async function executeCore() {
             const val = document.getElementById('userInput').value;
             if(!val) return;
-            document.getElementById('resultsArea').innerHTML = '<div style="color:var(--gold); margin-top:20px;">جاري تفعيل محرك الاستخبارات وتحليل المحتوى...</div>';
+            document.getElementById('resultsArea').innerHTML = '<div style="color:var(--gold); margin-top:20px; font-weight:bold;">جاري استخراج البيانات الصوتية وتحليل الأرقام الاستراتيجية...</div>';
             try {
                 const r = await fetch('/api/chat', {
                     method: 'POST',
@@ -91,7 +92,7 @@ HTML = """
                 });
                 const d = await r.json();
                 document.getElementById('resultsArea').innerHTML = `<div class="output-card"><div class="report-text">${d.res.replace(/\\n/g, '<br>')}</div></div>`;
-            } catch { document.getElementById('resultsArea').innerHTML = "فشل في الوصول للنواة."; }
+            } catch { document.getElementById('resultsArea').innerHTML = "حدث خطأ في معالجة النواة. تأكد من استقرار الاتصال."; }
         }
     </script>
 </body>
@@ -107,7 +108,7 @@ def chat():
     user_input = data.get('prompt')
     target_lang = data.get('lang')
     
-    # المعالجة الذكية: إذا كان رابطاً نستخدم AssemblyAI، وإلا نستخدم النص مباشرة
+    # التحقق من نوع المدخل: رابط فيديو أم نص مباشر
     if user_input.startswith("http"):
         processed_content = get_audio_transcript(user_input)
     else:
@@ -115,8 +116,8 @@ def chat():
 
     headers = {"Authorization": f"Bearer {GROQ_KEY}", "Content-Type": "application/json"}
     
-    # صياغة الأمر بناءً على اللغة المختارة
-    sys_prompt = f"You are an Elite Strategy Analyst. Generate the report ONLY in {target_lang}. Focus on M&A language, financial metrics, and CAGR. Use numbered lists. If the content is empty or error, state that politely in {target_lang}."
+    # صياغة تعليمات التحليل بناءً على اللغة المطلوبة ولغة الحيتان (M&A)
+    sys_prompt = f"You are an Elite Strategy Analyst for Enterprise Acquirers. Generate the report ONLY in {target_lang}. Use M&A language. Focus on financial metrics, CAGR, risks, and valuation. Use numbered lists. If the content is missing or errored, explain it in {target_lang}."
     
     payload = {
         "model": "llama-3.3-70b-versatile",
@@ -130,7 +131,7 @@ def chat():
         r = requests.post(GROQ_URL, json=payload, headers=headers, timeout=120)
         return jsonify({"res": r.json()['choices'][0]['message']['content']})
     except:
-        return jsonify({"res": "Core processing timeout. Please try with a shorter segment."})
+        return jsonify({"res": "Core processing timeout. Content might be too large for current tier."})
 
 if __name__ == '__main__':
     app.run(debug=True)
